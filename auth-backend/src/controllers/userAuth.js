@@ -1,4 +1,5 @@
 const axios = require("axios");
+const User = require("../models/user");
 
 const CLIENT_ID = "e10bb98d40d83cb4579b";
 const REDIRECT_URI = "http://localhost:8000/handleAuth";
@@ -46,4 +47,26 @@ const handleWebhook = async (req, res) => {
   }
 };
 
-module.exports = { signin, handleWebhook };
+const handleSignUp = async (req, res) => {
+  const { password, email } = req.body;
+
+  if (!password || !email) {
+    return res.status(401).json({ error: "Enter correct credentils !!" });
+  }
+
+  try {
+    const user = await User.findOne({
+      where: {
+        email,
+      },
+    });
+    if (!user) {
+      return res.status(409).json({ error: "User not exists!" });
+    }
+    return res.status(409).json({ error: "User  exists!" });
+  } catch (error) {
+    console.log(error, "errrrrr");
+  }
+};
+
+module.exports = { signin, handleWebhook, handleSignUp };

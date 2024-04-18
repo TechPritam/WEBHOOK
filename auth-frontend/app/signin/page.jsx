@@ -36,6 +36,7 @@ const SCOPES = "user";
     try {
       const url = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}`;
       window.location.href = url;
+      
     } catch (error) {
       console.log(error);
     }
